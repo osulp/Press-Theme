@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  docker: circleci/docker@1.2.1
+  kubernetes: circleci/kubernetes@0.11.0
+jobs:
+  server_pull:
+    parameters:
+      namespace:
+        type: string
+        default: 'press-test'
+    executor:
+      name: 'docker/docker'
+    steps:
+      - kubernetes/install-kubectl
+      - kubernetes/install-kubeconfig
+      - run:
+          name: Pull latest version of theme on PHP server
+          command: kubectl -n << parameters.namespace >> exec deployment/press-php composer update osulp/press-theme
+      - run:
+          name: Pull latest version of theme on NGINX server
+          command: kubectl -n << parameters.namespace >> exec deployment/press-nginx composer update osulp/press-theme
+workflows:
+  ci:
+    jobs:
+      - server_pull:
+          filters:
+            branches:
+              only: master
