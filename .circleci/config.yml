@@ -15,10 +15,10 @@ jobs:
       - kubernetes/install-kubeconfig
       - run:
           name: Pull latest version of theme on PHP server
-          command: kubectl -n << parameters.namespace >> exec deployment/press-php composer update osulp/press-theme
+          command: kubectl -n << parameters.namespace >> exec deployment/press-php -- bash -c "composer update osulp/press-theme && apk --update add npm && cd web/themes/contrib/press-theme && npm install && npm run setup && npm run build:drupal"
       - run:
           name: Pull latest version of theme on NGINX server
-          command: kubectl -n << parameters.namespace >> exec deployment/press-nginx composer update osulp/press-theme
+          command: kubectl -n << parameters.namespace >> exec deployment/press-nginx -- bash -c "composer update osulp/press-theme && apk --update add npm && cd web/themes/contrib/press-theme && npm install && npm run setup && npm run build:drupal"
 workflows:
   ci:
     jobs:
