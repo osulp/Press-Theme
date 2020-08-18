@@ -14,14 +14,5 @@
     "docs": "https://phase2.github.io/frontend-docs/",
     "issues": "https://github.com/phase2/particle/issues",
     "source": "https://github.com/phase2/particle/tree/master"
-  },
-  "repositories": {
-    "drupal": {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
-    }
-  },
-  "require": {
-    "drupal/twig_vardumper": "^3.0"
   }
 }
